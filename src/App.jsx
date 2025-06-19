@@ -8,6 +8,7 @@ import './app.css'
 export default function App() {
   const [dealtCards, setDealtCards] = useState([])
   const [deckCount, setDeckCount] = useState(0)
+  const [selectedDeal, setSelectedDeal] = useState(null)
 
   const dealtRefs = useRef([])
   const deckGroupRef = useRef()
@@ -37,13 +38,16 @@ export default function App() {
   const requestDeal = (n) =>
     window.dispatchEvent(new CustomEvent('deal-request', { detail: n }))
   
-  const resetDeck = () => window.dispatchEvent(new Event('reset-deck'))
+  const resetDeck = () => {
+    setSelectedDeal(null)
+    window.dispatchEvent(new Event('reset-deck'))
+  }
 
   return (
-    <div className="container">
-      <div className="canvas-wrapper">
+    <div className="h-screen flex flex-col min-h-screen bg-gradient-to-br from-gray-900 to-black text-white">
+      <div className="flex-1 relative h-full">
         <Canvas
-          className="full-canvas"
+          className="absolute inset-0"
           shadows
           dpr={[1, 2]}
           camera={{ position: [0, 2, 12], fov: 50 }}
@@ -81,17 +85,33 @@ export default function App() {
           })}
         </Canvas>
       </div>
+      <div className="bg-gray-800 px-4 py-3 flex flex-col md:flex-row items-center justify-between gap-4 shadow-lg">
+        <div className="text-lg font-medium text-indigo-300">Deck: {deckCount} cards left</div>
+        
 
-      <div className="controls">
-        <div className="deck-count">Deck: {deckCount} cards left</div>
-        <div className="buttons">
+        <div className="flex flex-wrap gap-2 text-black ">
           {[1, 2, 3, 4, 5, 6, 7].map((n) => (
-            <button key={n} onClick={() => requestDeal(n)}>
+            <button 
+              className={`px-4 py-2 rounded-md shadow-md text-sm transition font-medium ${
+                selectedDeal === n
+                  ? 'text-black'
+                  : 'text-gray-400'
+              } `}
+              key={n} 
+              onClick={() => {
+                requestDeal(n)
+                setSelectedDeal(n)
+              }}
+
+            >
               Deal {n}
             </button>
           ))}
-          <button onClick={resetDeck}>
-            Reset Deck
+          <button 
+            onClick={resetDeck}
+            className='px-4 py-2 bg-red-600 hover:bg-red-700 transition rounded-md shadow-md text-sm'
+          >
+           🔁 Reset Deck
           </button>
         </div>
       </div>
