@@ -44,7 +44,7 @@ export default function App() {
   }
 
   return (
-    <div className="h-screen flex flex-col min-h-screen bg-gradient-to-br from-gray-900 to-black text-white">
+    <div className="h-screen flex flex-col min-h-screen bg-gradient-to-br from-gray-900 to-black">
       <div className="flex-1 relative h-full">
         <Canvas
           className="absolute inset-0"
@@ -85,34 +85,52 @@ export default function App() {
           })}
         </Canvas>
       </div>
-      <div className="bg-gray-800 px-4 py-3 flex flex-col md:flex-row items-center justify-between gap-4 shadow-lg">
-        <div className="text-lg font-medium text-indigo-300">Deck: {deckCount} cards left</div>
-        
+      <div className="bg-gray-900/80 backdrop-blur-md border-t border-gray-700 px-4 py-3 sm:px-6">
+        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-3 w-full">
+          <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto justify-center">
+            <div className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-indigo-900/50 border border-indigo-500">
+              <span className="text-lg sm:text-xl font-bold text-indigo-200">{deckCount}</span>
+            </div>
+            <div className="text-xs sm:text-sm font-medium text-gray-300 whitespace-nowrap">
+              {deckCount === 1 ? 'card remaining' : 'cards remaining'}
+            </div>
+          </div>
 
-        <div className="flex flex-wrap gap-2 text-black ">
-          {[1, 2, 3, 4, 5, 6, 7].map((n) => (
+          <div className="flex flex-1 flex-wrap justify-center sm:justify-end gap-2 w-full sm:w-auto">
+            {[1, 2, 3, 4, 5, 6, 7].map((n) => (
+              <button 
+                key={n}
+                className={`
+                  relative px-3 py-1.5 sm:px-4 sm:py-2 rounded-md sm:rounded-lg text-xs sm:text-sm
+                  transition-border duration-200 ease-out whitespace-nowrap cursor-pointer text-gray-500 
+                  ${
+                    selectedDeal === n
+                      ? 'bg-indigo-600 text-white font-bold shadow-indigo-500/50'
+                      : 'bg-gray-800 hover:bg-gray-400 hover:text-white'
+                  }
+                  border ${selectedDeal === n ? 'border-indigo-400' : 'border-gray-700'}
+                `}
+                onClick={() => {
+                  requestDeal(n)
+                  setSelectedDeal(n)
+                }}
+              >
+                Deal {n}
+                {selectedDeal === n && (
+                  <span className="absolute -top-1 -right-1 flex h-2 w-2 sm:h-3 sm:w-3">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 sm:h-3 sm:w-3 bg-green-500"></span>
+                  </span>
+                )}
+              </button>
+            ))}
             <button 
-              className={`px-4 py-2 rounded-md shadow-md text-sm transition font-medium ${
-                selectedDeal === n
-                  ? 'text-black'
-                  : 'text-gray-400'
-              } `}
-              key={n} 
-              onClick={() => {
-                requestDeal(n)
-                setSelectedDeal(n)
-              }}
-
+              onClick={resetDeck}
+              className='px-3 py-1.5 sm:px-4 sm:py-2 bg-red-600 hover:bg-red-700 transition-all rounded-md sm:rounded-lg shadow-sm sm:shadow-md text-xs sm:text-sm text-white whitespace-nowrap cursor-pointer'
             >
-              Deal {n}
+              🔁 Reset
             </button>
-          ))}
-          <button 
-            onClick={resetDeck}
-            className='px-4 py-2 bg-red-600 hover:bg-red-700 transition rounded-md shadow-md text-sm'
-          >
-           🔁 Reset Deck
-          </button>
+          </div>
         </div>
       </div>
     </div>

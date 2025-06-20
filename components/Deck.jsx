@@ -27,12 +27,12 @@ export default function Deck({ onDeal, onDeckChange, groupRef }) {
           const j = Math.floor(Math.random() * (i + 1))
           ;[arr[i], arr[j]] = [arr[j], arr[i]]
         }
+        console.log("First 6 cards after shuffle:", arr.slice(0, 6));
         setDeck(arr)
         onDeal([])  
       }
     )
   }
-
 
   const handlePointerDown = (e) => {
     e.stopPropagation()

@@ -1,6 +1,15 @@
-export function animateShuffle(groupRef, onComplete) {
-  const cards = Array.from(groupRef.current.children)
-  const total = cards.length
+export function animateShuffle(groupRef, options = {},  onComplete) {
+  const {
+    liftAmount = 2,
+    liftTime = 0.3,
+    scatterTime = 0.5,
+    restackTime = 0.7,
+    staggerAmount = 0.02,
+  } = options;
+  
+  const group = groupRef.current;
+  const cards = group.children.slice();
+  const total = cards.length;
 
   function tween(from, to, duration, apply, done) {
     const start = performance.now()
@@ -26,15 +35,28 @@ export function animateShuffle(groupRef, onComplete) {
   }, 350)
 
   setTimeout(() => {
-    let done = 0
-    cards.forEach((m, i) => {
-      tween(m.position.x,   0,          500, v => (m.position.x = v))
-      tween(m.position.y,  -i * 0.02,   500, v => (m.position.y = v))
-      tween(m.position.z,   i * 0.001,  500, v => (m.position.z = v))
-      tween(m.rotation.y,   0,          500, r => (m.rotation.y = r), () => {
-        done++
-        if (done === total && onComplete) onComplete()
-      })
-    })
-  }, 800)
+    let done = 0;
+    const finish = () => {
+      done++;
+      if (done === total) {
+        cards.forEach((card) => {
+          group.remove(card);
+          group.add(card);
+        });
+        if (onComplete && typeof onComplete === 'function') {
+          onComplete();
+        }
+      }
+    };
+    
+    cards.forEach((m, newIndex) => {
+      setTimeout(() => {
+        tween(m.position.x, 0, 600, v => (m.position.x = v));
+        tween(m.position.y, -newIndex * 0.02, 600, v => (m.position.y = v));
+        tween(m.position.z, newIndex * 0.001, 600, v => (m.position.z = v));
+        tween(m.rotation.y, 0, 600, r => (m.rotation.y = r));
+        tween(m.rotation.z, 0, 600, r => (m.rotation.z = r), finish);
+      }, newIndex * 40);
+    });
+  }, 1000);
 }
