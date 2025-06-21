@@ -2,11 +2,13 @@ import React, { forwardRef, useRef, useImperativeHandle } from 'react'
 import { useLoader } from '@react-three/fiber'
 import * as THREE from 'three'
 import { cardMap } from '../utils/cardList'
+import { hoverAnimation } from '../src/animations/hovercard'
 
 const Card = forwardRef(({
   code,
   position = [0, 0, 0],
   rotation = [0, 0, 0],
+  dealt = false,
 }, ref) => {
   const meshRef = useRef()
   useImperativeHandle(ref, () => meshRef.current, [])
@@ -27,6 +29,8 @@ const Card = forwardRef(({
     new THREE.MeshStandardMaterial({ map: backTex }),
   ]
 
+  const hoverProps = dealt ? hoverAnimation(meshRef) : {}
+
   return (
     <mesh
       ref={meshRef}
@@ -35,6 +39,7 @@ const Card = forwardRef(({
       material={materials}
       castShadow
       receiveShadow
+      {...hoverProps}
     >
       <boxGeometry args={[2.5, 3.5, 0.1]} />
     </mesh>

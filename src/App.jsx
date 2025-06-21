@@ -44,8 +44,8 @@ export default function App() {
   }
 
   return (
-    <div className="h-screen flex flex-col min-h-screen bg-gradient-to-br from-gray-900 to-black">
-      <div className="flex-1 relative h-full">
+    <div className="card-game-container h-screen flex flex-col min-h-screen bg-gradient-to-br from-gray-900 to-black">
+      <div className="canvas-container flex-1 relative h-full">
         <Canvas
           className="absolute inset-0"
           shadows
@@ -61,30 +61,46 @@ export default function App() {
             shadow-mapSize-height={1024}
           />
 
-          <Deck 
-            onDeal={handleDeal}
-            onDeckChange={handleDeckChange}
-            groupRef={deckGroupRef}
-          />
+          <group position={[0, 0, 0]} className="deck-position">
+            <Deck 
+              onDeal={handleDeal}
+              onDeckChange={handleDeckChange}
+              groupRef={deckGroupRef}
+            />
+          </group>
 
-          {dealtCards.map((code, idx) => {
-            const count = dealtCards.length
-            const rotY = (idx - (count - 1) / 2) * 0.1
-            const origin = deckGroupRef.current.position
-            return (
-              <Card
-                key={`${code}-${idx}`}
-                ref={dealtRefs.current[idx]}
-                code={code}
-                dealt={true}
-                rotation={[0, rotY, 0]}
-                position={[origin.x, origin.y, origin.z]}
-              />
-            )
-          })}
+          <group className="dealt-cards-container">
+            {dealtCards.map((code, idx) => {
+              const count = dealtCards.length;
+              const rotY = (idx - (count - 1) / 2) * 0.1;
+              const origin = deckGroupRef.current?.position || { x: 0, y: 0, z: 0 };
+              
+              // Adjust positions and scale for mobile
+              const isMobile = window.innerWidth < 640;
+              const mobileX = (idx - (count - 1) / 2) * 1.5;
+              const mobileY = -2;
+              const scale = isMobile ? 0.6 : 1; // 60% size on mobile, full size on desktop
+              
+              return (
+                <Card
+                  key={`${code}-${idx}`}
+                  ref={dealtRefs.current[idx]}
+                  code={code}
+                  dealt={true}
+                  rotation={[0, rotY, 0]}
+                  position={[
+                    isMobile ? mobileX : origin.x,
+                    isMobile ? mobileY : origin.y,
+                    origin.z
+                  ]}
+                  scale={[scale, scale, scale]} // Uniform scale on all axes
+                />
+              );
+            })}
+          </group>
         </Canvas>
       </div>
-      <div className="bg-gray-900/80 backdrop-blur-md border-t border-gray-700 px-4 py-3 sm:px-6">
+      <div className="controls-container bg-gray-900/80 backdrop-blur-md border-t border-gray-700 px-4 py-3 sm:px-6">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-3 w-full">
           <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto justify-center">
             <div className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-indigo-900/50 border border-indigo-500">

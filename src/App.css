@@ -39,3 +39,32 @@ html, body, #root {
   bottom: 25vh;
   left: 10vw;
 }
+
+/* Mobile layout */
+@media (max-width: 640px) {
+  .card-game-container {
+    flex-direction: column-reverse !important;
+  }
+  
+  .canvas-container {
+    height: 60vh !important;
+  }
+  
+  .controls-container {
+    height: 40vh !important;
+    padding-top: 1rem;
+  }
+  
+  .deck-position {
+    top: 20% !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+  }
+  
+  .dealt-cards-container {
+    top: 40% !important;
+    flex-direction: row;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+}
