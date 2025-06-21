@@ -5,6 +5,7 @@ export function animateShuffle(groupRef, options = {},  onComplete) {
     scatterTime = 0.5,
     restackTime = 0.7,
     staggerAmount = 0.02,
+    liftHeight = 0.5 
   } = options;
   
   const group = groupRef.current;
@@ -22,17 +23,40 @@ export function animateShuffle(groupRef, options = {},  onComplete) {
     requestAnimationFrame(frame)
   }
 
-  cards.forEach(m => {
-    const lift = 1 + Math.random() * 0.5
-    tween(m.position.y, m.position.y + lift, 300, v => (m.position.y = v))
+  cards.forEach((m, i) => {
+    const lift = (total - i) * 0.01 * liftAmount + Math.random() * liftHeight;
+    tween(
+      m.position.y,
+      m.position.y + lift,
+      liftTime,
+      v => (m.position.y = v),
+      t => t * (2 - t) // easeOutQuad
+    );
   })
 
   setTimeout(() => {
-    cards.forEach(m => {
-      tween(m.position.x, (Math.random() - 0.5) * 1.5, 400, v => (m.position.x = v))
-      tween(m.rotation.y,   0, 400, r => (m.rotation.y = r))
-    })
-  }, 350)
+    cards.forEach(card => {
+      tween(
+        card.position.x,
+        (Math.random() - 0.5) * 2 * scatterRadius,
+        scatterTime,
+        v => (card.position.x = v),
+        t => t * (2 - t)
+      );
+      tween(
+        card.rotation.y,
+        (Math.random() - 0.5) * Math.PI * 0.2,
+        scatterTime,
+        r => (card.rotation.y = r)
+      );
+      tween(
+        card.rotation.z,
+        (Math.random() - 0.5) * Math.PI * 0.1,
+        scatterTime,
+        r => (card.rotation.z = r)
+      );
+    });
+  }, liftTime * 1000);
 
   setTimeout(() => {
     let done = 0;
@@ -51,12 +75,12 @@ export function animateShuffle(groupRef, options = {},  onComplete) {
     
     cards.forEach((m, newIndex) => {
       setTimeout(() => {
-        tween(m.position.x, 0, 600, v => (m.position.x = v));
-        tween(m.position.y, -newIndex * 0.02, 600, v => (m.position.y = v));
-        tween(m.position.z, newIndex * 0.001, 600, v => (m.position.z = v));
-        tween(m.rotation.y, 0, 600, r => (m.rotation.y = r));
-        tween(m.rotation.z, 0, 600, r => (m.rotation.z = r), finish);
-      }, newIndex * 40);
+        tween(m.position.x, 0, restackTime, v => (m.position.x = v));
+        tween(m.position.y, -newIndex * 0.02, restackTime, v => (m.position.y = v));
+        tween(m.position.z, newIndex * 0.001, restackTime, v => (m.position.z = v));
+        tween(m.rotation.y, 0, restackTime, r => (m.rotation.y = r));
+        tween(m.rotation.z, 0, restackTime, r => (m.rotation.z = r), finish);
+      }, newIndex * staggerAmount * 1000);
     });
   }, 1000);
 }

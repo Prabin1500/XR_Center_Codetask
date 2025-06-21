@@ -69,7 +69,6 @@ export default function App() {
 
           {dealtCards.map((code, idx) => {
             const count = dealtCards.length
-            //const xOffset = -((count - 1) / 2) + idx * 1.2
             const rotY = (idx - (count - 1) / 2) * 0.1
             const origin = deckGroupRef.current.position
             return (
@@ -106,9 +105,9 @@ export default function App() {
                   ${
                     selectedDeal === n
                       ? 'bg-indigo-600 text-white font-bold shadow-indigo-500/50'
-                      : 'bg-gray-800 hover:bg-gray-400 hover:text-white'
+                      : ''
                   }
-                  border ${selectedDeal === n ? 'border-indigo-400' : 'border-gray-700'}
+                  border ${selectedDeal === n ? 'border-indigo-400' : ''}
                 `}
                 onClick={() => {
                   requestDeal(n)
