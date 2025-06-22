@@ -1,44 +1,26 @@
-# Helsinki XR Center – Coding Task 2025
+# 🃏 3D Tarot Card Experience
 
-This task is intended to evaluate your frontend skills and understanding of interaction design, UI/UX, and code structure in a Three.js + React environment. 
-You will enhance an existing Tarot card deck viewer and improve its functionality and feel. 
+A visually immersive 3D Tarot card dealing application built with **React Three Fiber**. Users can deal cards dynamically, reset the deck, and experience an interactive card layout brought to life with smooth animations and a responsive design for both desktop and mobile devices.
 
-> **Note:** This task is designed to be completed in **3–5 hours**.  
-> It should **not** take a full working day.  
-> Please prioritize clarity and interactivity over polish or completeness.
+---
 
+## 🚀 Features
 
-Setup Instructions:
-1. Clone the repository: 
-	https://gitlab.com/hxrc_public/hxrc_codetask_2025 
-2. Install dependencies and run the app locally:
-	npm install
-	npm run dev
-3. You can preview the current application functionality at:  
-	https://xrdev.edu.metropolia.fi/hxrc_codetask_2025 
+- 🌐 **Responsive Layout**: Optimized for desktop and mobile.
+- 🧩 **Dynamic Deal Options**: Choose between 1 to 7 cards.
+- 💡 **Deck Reset Option**: Shuffle and reset the deck easily.
+- 💻 **Built with**: React, React Three Fiber, GSAP, Tailwind CSS.
 
-Coding Tasks:
-1. Create a better UI for the Tarot card application.
-	• Use your preferred styling method (CSS, styled-components, Tailwind, etc).
-	• Ensure responsive layout and a user-friendly experience on 
-	desktop and mobile
-2. Improve the shuffling logic.
-	• Ensure that each deal gives a truly randomized result.
-	• Avoid predictable orders after shuffling.
+---
 
-3. Add a hover effect for dealt cards only.
-	• Implement the logic in: /src/animations/hovercard.js
-	• Cards should animate forward when hovered, improving visibility.
+## 📦 Installation
 
-4. Enhance the README file:
-	• Explain how you would improve the overall user experience.
-	• Propose ideas on how to gamify the Tarot app if given a 
-	full week to develop.
+```bash
+git clone https://github.com/Prabin1500/XR_Center_Codetask.git
+cd XR_Center_Codetask
+npm install
+npm run dev
+```
 
-5. Submit your task: 
-	• Upload your code to a repository (GitHub, GitLab, etc).
-	• Deploy the final app using a service like Vercel, Netlify, or GitHub Pages.
-	• Share both the repository link and the live demo link. 
-
-Questions? If you have any questions about the task, please contact:
-Juho Puurunen – juho.puurunen@metropolia.fi
+## 🎨 Planned UX Improvements
+The following enhancements would significantly improve the overall user experience:
