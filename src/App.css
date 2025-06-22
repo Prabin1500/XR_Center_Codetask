@@ -43,16 +43,21 @@ html, body, #root {
 /* Mobile layout */
 @media (max-width: 640px) {
   .card-game-container {
-    flex-direction: column-reverse !important;
+    flex-direction: column !important;
   }
   
   .canvas-container {
-    height: 60vh !important;
+    height: 45vh !important;
   }
   
   .controls-container {
-    height: 40vh !important;
+    height: 30vh !important;
     padding-top: 1rem;
+  }
+
+  .controls-container button {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
   }
   
   .deck-position {

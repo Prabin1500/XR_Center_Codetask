@@ -9,6 +9,7 @@ export default function App() {
   const [dealtCards, setDealtCards] = useState([])
   const [deckCount, setDeckCount] = useState(0)
   const [selectedDeal, setSelectedDeal] = useState(null)
+  const [isMobile, setIsMobile] = useState(false);
 
   const dealtRefs = useRef([])
   const deckGroupRef = useRef()
@@ -18,6 +19,17 @@ export default function App() {
     setDealtCards(cards)
   }
   
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    
+    handleResize(); 
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   useEffect(() => {
     if(!dealtRefs.current || !Array.isArray(dealtRefs.current)) return
     if (dealtRefs.current.length === 0 || !deckGroupRef.current) return
@@ -50,7 +62,15 @@ export default function App() {
           className="absolute inset-0"
           shadows
           dpr={[1, 2]}
-          camera={{ position: [0, 2, 12], fov: 50 }}
+          camera={{
+            position: [0, isMobile ? 1 : 2, isMobile ? 8 : 12],
+            fov: isMobile ? 30 : 50
+          }}
+          style={{
+            width: '100%',
+            height: isMobile ? '40vh' : '100vh', 
+            maxHeight: isMobile ? '300px' : 'none' 
+          }}
         >
           <ambientLight intensity={0.6} />
           <directionalLight
@@ -61,11 +81,12 @@ export default function App() {
             shadow-mapSize-height={1024}
           />
 
-          <group position={[0, 0, 0]} className="deck-position">
+          <group position={[0, isMobile ? 1 : 0, 0]} className="deck-position">
             <Deck 
               onDeal={handleDeal}
               onDeckChange={handleDeckChange}
               groupRef={deckGroupRef}
+              scale={isMobile ? [0.7, 0.7, 0.7] : [1, 1, 1]}
             />
           </group>
 
@@ -75,11 +96,11 @@ export default function App() {
               const rotY = (idx - (count - 1) / 2) * 0.1;
               const origin = deckGroupRef.current?.position || { x: 0, y: 0, z: 0 };
               
-              // Adjust positions and scale for mobile
-              const isMobile = window.innerWidth < 640;
-              const mobileX = (idx - (count - 1) / 2) * 1.5;
-              const mobileY = -2;
-              const scale = isMobile ? 0.6 : 1; // 60% size on mobile, full size on desktop
+              const mobileX = (idx - (count - 1) / 2) * 1.1;
+              const mobileY = isMobile ? -3 : 0; 
+              const mobileZ = window.innerWidth < 400 ? -6 : -4;
+
+              const scale = window.innerWidth < 400 ? 0.1 : isMobile ? 0.3 : 1;
               
               return (
                 <Card
@@ -91,9 +112,9 @@ export default function App() {
                   position={[
                     isMobile ? mobileX : origin.x,
                     isMobile ? mobileY : origin.y,
-                    origin.z
+                    isMobile ? mobileZ : origin.z,
                   ]}
-                  scale={[scale, scale, scale]} // Uniform scale on all axes
+                  scale={[scale, scale, scale]} 
                 />
               );
             })}
