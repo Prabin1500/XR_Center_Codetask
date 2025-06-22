@@ -24,3 +24,7 @@ npm run dev
 
 ## 🎨 Planned UX Improvements
 The following enhancements would significantly improve the overall user experience:
+- ✅ Card Reveal Flip Animation: Add a flipping effect to simulate real card turning and reveal its face.
+- ✅ Dark/Light Mode Toggle: Improve comfort for users across different lighting environments.
+- ✅ Sound Effects: Add subtle audio feedback when cards are dealt or flipped.
+- ✅ Improved Mobile Layout: Full-screen interactive view optimized for vertical screens.
