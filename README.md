@@ -30,8 +30,9 @@ The following enhancements would significantly improve the overall user experien
 - ✅ Improved Mobile Layout: Full-screen interactive view optimized for vertical screens.
 
 ## 🎮 Ideas to Gamify the Tarot App
-- Add a Daily challenge
-- Implement an achievement system
-- Add a levelling system
-- Add visual and audio effects
+- Add card meaning popups so users can tap on any card to view its name.
+- Add theme customization and dark mode.
+- Enable user profile saving using Firebase or localStorage.
+- Allow drag-and-drop card arrangement in the 3D space.
+- Add visual and audio effects.
 
