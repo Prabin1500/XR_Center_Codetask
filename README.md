@@ -28,3 +28,10 @@ The following enhancements would significantly improve the overall user experien
 - ✅ Dark/Light Mode Toggle: Improve comfort for users across different lighting environments.
 - ✅ Sound Effects: Add subtle audio feedback when cards are dealt or flipped.
 - ✅ Improved Mobile Layout: Full-screen interactive view optimized for vertical screens.
+
+## 🎮 Ideas to Gamify the Tarot App
+- Add a Daily challenge
+- Implement an achievement system
+- Add a levelling system
+- Add visual and audio effects
+
