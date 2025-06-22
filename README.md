@@ -1,4 +1,4 @@
-# 🃏 3D Tarot Card Experience
+# 🃏 3D Tarot Card 
 
 A visually immersive 3D Tarot card dealing application built with **React Three Fiber**. Users can deal cards dynamically, reset the deck, and experience an interactive card layout brought to life with smooth animations and a responsive design for both desktop and mobile devices.
 
