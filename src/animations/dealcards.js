@@ -7,8 +7,8 @@ export function animateDeal(cardRefs, groupRef) {
   const total  = cardRefs.length
 
   const spacingX    = 1.5    
-  const separationZ = 0.3    
-  const yEnd        = -1
+  const separationZ = 0.2
+  const yEnd        = -1.5
   const duration    = 600
   const delayEach   = 200
 

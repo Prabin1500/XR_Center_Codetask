@@ -19,7 +19,6 @@ export default function App() {
     setDealtCards(cards)
   }
   
-
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 640);
@@ -43,7 +42,6 @@ export default function App() {
         requestAnimationFrame(tryAnimate)
       }
     }
-
     tryAnimate()
   },[dealtCards])
 
@@ -56,7 +54,27 @@ export default function App() {
   }
 
   return (
-    <div className="card-game-container h-screen flex flex-col min-h-screen bg-gradient-to-br from-gray-900 to-black">
+    <div className="card-game-container h-screen flex flex-col min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900">
+
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-full opacity-20">
+          {[...Array(20)].map((_, i) => (
+            <div 
+              key={i}
+              className="absolute rounded-full bg-purple-500"
+              style={{
+                width: `${Math.random() * 10 + 5}px`,
+                height: `${Math.random() * 10 + 5}px`,
+                top: `${Math.random() * 100}%`,
+                left: `${Math.random() * 100}%`,
+                opacity: Math.random() * 0.5 + 0.1,
+                animation: `float ${Math.random() * 10 + 10}s linear infinite`,
+                animationDelay: `${Math.random() * 5}s`
+              }}
+            />
+          ))}
+        </div>
+      </div>
       <div className="canvas-container flex-1 relative h-full">
         <Canvas
           className="absolute inset-0"
@@ -68,8 +86,7 @@ export default function App() {
           }}
           style={{
             width: '100%',
-            height: isMobile ? '40vh' : '100vh', 
-            maxHeight: isMobile ? '300px' : 'none' 
+            height: isMobile ? '40vh' : '80vh', 
           }}
         >
           <ambientLight intensity={0.6} />
@@ -93,14 +110,10 @@ export default function App() {
           <group className="dealt-cards-container">
             {dealtCards.map((code, idx) => {
               const count = dealtCards.length;
-              const rotY = (idx - (count - 1) / 2) * 0.1;
-              const origin = deckGroupRef.current?.position || { x: 0, y: 0, z: 0 };
-              
-              const mobileX = (idx - (count - 1) / 2) * 1.1;
-              const mobileY = isMobile ? -3 : 0; 
-              const mobileZ = window.innerWidth < 400 ? -6 : -4;
-
-              const scale = window.innerWidth < 400 ? 0.1 : isMobile ? 0.3 : 1;
+              const angle = (idx - (count - 1) / 2) * (isMobile ? 0.15 : 0.1)
+              const xPos = (idx - (count - 1) / 2) * (isMobile ? 1.2 : 1.5)
+              const yPos = isMobile ? -2.5 : 0
+              const zPos = isMobile ? -4 : -2
               
               return (
                 <Card
@@ -108,13 +121,9 @@ export default function App() {
                   ref={dealtRefs.current[idx]}
                   code={code}
                   dealt={true}
-                  rotation={[0, rotY, 0]}
-                  position={[
-                    isMobile ? mobileX : origin.x,
-                    isMobile ? mobileY : origin.y,
-                    isMobile ? mobileZ : origin.z,
-                  ]}
-                  scale={[scale, scale, scale]} 
+                  rotation={[0, angle, Math.sin(angle) * 0.2]}
+                  position={[xPos, yPos, zPos]}
+                  scale={isMobile ? [0.35, 0.35, 0.35] : [0.8, 0.8, 0.8]}
                 />
               );
             })}
